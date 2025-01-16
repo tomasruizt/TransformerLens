@@ -44,4 +44,5 @@
     "black-formatter.args": [
         "-l 100"
     ],
+    "makefile.configureOnOpen": false,
 }
