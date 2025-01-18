@@ -242,6 +242,7 @@ OFFICIAL_MODEL_NAMES = [
     "google/gemma-2-9b-it",
     "google/gemma-2-27b",
     "google/gemma-2-27b-it",
+    "google/paligemma2-3b-pt-896",
     "01-ai/Yi-6B",
     "01-ai/Yi-34B",
     "01-ai/Yi-6B-Chat",
@@ -757,6 +758,7 @@ def convert_hf_model_config(model_name: str, **kwargs):
         )
         architecture = hf_config.architectures[0]
 
+    is_paligemma = "paligemma" in official_model_name.lower()
     if official_model_name.startswith(
         ("llama-7b", "meta-llama/Llama-2-7b")
     ):  # same architecture for LLaMA and Llama-2
@@ -1382,8 +1384,9 @@ def convert_hf_model_config(model_name: str, **kwargs):
             "gated_mlp": True,
             "final_rms": True,
         }
-    elif official_model_name.startswith("google/gemma-2-2b"):
+    elif official_model_name.startswith("google/gemma-2-2b") or is_paligemma:
         # Architecture for Gemma-2 2b and Gemma-2 2b Instruct models
+        d_vocab = 257216 if is_paligemma else 256000
         cfg_dict = {
             "d_model": 2304,
             "d_head": 256,
@@ -1392,7 +1395,7 @@ def convert_hf_model_config(model_name: str, **kwargs):
             "n_layers": 26,
             "n_ctx": 8192,
             "eps": 1e-06,
-            "d_vocab": 256000,
+            "d_vocab": d_vocab,
             "act_fn": "gelu_pytorch_tanh",
             "initializer_range": 0.02,
             "normalization_type": "RMS",

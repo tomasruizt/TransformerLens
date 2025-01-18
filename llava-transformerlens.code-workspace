@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../CircuitsVis"
+		}
+	],
+	"settings": {
+		"notebook.formatOnCellExecution": true,
+		"notebook.formatOnSave.enabled": true,
+		"makefile.configureOnOpen": false
+	}
+}
